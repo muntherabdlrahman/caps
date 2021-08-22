@@ -6,7 +6,7 @@ var faker=require('faker');
 // const { address, time } = require('faker');
 
 
-const shopeName=process.env.SWEET-SHOP||'SWEET-SHOP';
+const shopName=process.env.SWEETSHOP||'SWEETSHOP';
 events.on('delivered',receivedTheOrder);
 
 function receivedTheOrder(payload){
@@ -17,8 +17,8 @@ function receivedTheOrder(payload){
 
 setInterval(()=>{
     let order={
-        store:shopeName,
-        orderId= faker.datatype.uuid(),
+        store:shopName,
+        orderId: faker.datatype.uuid(),
         customer:faker.name.findName(),
         address:faker.address.streetAddress(),
         time:faker.datatype.datetime()
