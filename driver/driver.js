@@ -1,19 +1,24 @@
 'use strict';
+const port = process.env.PORT||3000;
+const io = require('socket.io-client');
+let host = 'http://localhost:8000';
+const socket = io.connect(`${host}/shopSystem`);
+const shopName=process.env.SWEETSHOP||'SWEETSHOP';
 
-const events=require('../events');
+socket.emit('join',shopName );
 
-events.on('pickItUp',pickItUp);
+socket.on('pickItUp',pickItUp);
 
 function pickItUp(payload){
 setTimeout(()=>{
     console.log(`The driver should pick up the order number ${payload.orderId}`);
-    events.emit('in-transit',payload);
+    socket.emit('in-transit',payload);
 
 },1000)
 
 setTimeout(()=>{
     console.log(`the order number ${payload.orderId} is delivered `);
-    events.emit('delivered',payload);
+    socket.emit('delivered',payload);
 
 },3000)
 }

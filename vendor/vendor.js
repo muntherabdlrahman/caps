@@ -1,13 +1,16 @@
 'use strict';
 
-const events=require('../events');
-
+const port = process.env.PORT||8000;
+const io=require('socket.io-client');
+let host='http://localhost:8000';
+const socket = io.connect(`${host}/shopSystem`);
 var faker=require('faker');
-// const { address, time } = require('faker');
-
-
 const shopName=process.env.SWEETSHOP||'SWEETSHOP';
-events.on('delivered',receivedTheOrder);
+const shopId =process.env.shop_ID||'1234';
+
+socket.emit('join',shopName );
+
+socket.on('delivered',receivedTheOrder);
 
 function receivedTheOrder(payload){
     console.log(`The order number ${payload.orderId} is in progress , welcome to serve you in the future again`);
@@ -25,8 +28,7 @@ setInterval(()=>{
 
 
     }
-    events.emit('pickItUp',order);
-    console.log(faker.datatype.uuid())
+    socket.emit('pickItUp',order);
 
 },5000);
 
